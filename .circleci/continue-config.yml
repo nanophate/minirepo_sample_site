@@ -1,0 +1,63 @@
+---
+version: 2.1
+orbs:
+  ruby: circleci/ruby@1.1.1
+executors:
+  rack_exec:
+    docker:
+      - image: circleci/ruby:2.7.4-node-browsers
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+parameters:
+  public:
+    type: boolean
+    default: false
+  sample:
+    type: boolean
+    default: false
+jobs:
+  public:
+    executor: rack_exec
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run:
+          command: |
+            mkdir -p ~/rspec
+            TESTFILES=$(circleci tests glob "spec/feature/*_spec.rb" | circleci tests split --split-by=filesize)
+            echo $TESTFILES
+            bundle exec rspec $TESTFILES --format RspecJunitFormatter --out ~/rspec/results.xml --format progress
+          name: Run rspec with circleci config
+  sample:
+    executor: rack_exec
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run:
+          command: |
+            mkdir -p ~/rspec
+            TESTFILES=$(circleci tests glob "spec/system/*_spec.rb" | circleci tests split --split-by=filesize)
+            echo $TESTFILES
+            bundle exec rspec $TESTFILES --format RspecJunitFormatter --out ~/rspec/results.xml --format progress
+          name: Run rspec with circleci config
+  test:
+    executor: rack_exec
+    steps:
+      - checkout
+      - ruby/install-deps
+      - ruby/rspec-test
+workflows:
+  test-1:
+    when: << pipeline.parameters.public >>
+    jobs:
+      - public
+  test-2:
+    when: << pipeline.parameters.sample >>
+    jobs:
+      - sample
+  all-tests:
+    when:
+      and: [<< pipeline.parameters.public >>, << pipeline.parameters.sample >>]
+    jobs:
+      - test
