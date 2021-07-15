@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sample Site</title>
+  </head>
+  <body>
+  <h1>Sample Site</h1>
+    <p id="welcome">Hello, Thank you for accessing to this website.</p>
+    <button onclick="swapWelcome()">Greeting!</button>
+
+    <script>
+    function swapWelcome() {
+      var welcomeMessage = document.getElementById("welcome");
+      welcomeMessage.innerHTML = "Hi, Thank you for clicking!";
+    }
+    </script>
+  </body>
+</html>
