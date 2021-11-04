@@ -51,7 +51,7 @@ workflows:
   test-1:
     when: << pipeline.parameters.public >>
     jobs:
-      - public
+      - sample
   test-2:
     when: << pipeline.parameters.sample >>
     jobs:
