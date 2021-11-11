@@ -55,7 +55,7 @@ workflows:
   test-2:
     when: << pipeline.parameters.sample >>
     jobs:
-      - sample
+      - sample:
         name: aaa
   all-tests:
     when:
