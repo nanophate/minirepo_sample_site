@@ -56,7 +56,8 @@ workflows:
     when: << pipeline.parameters.sample >>
     jobs:
       - sample:
-        name: aaa
+          name:
+            - flow
   all-tests:
     when:
       and: [<< pipeline.parameters.public >>, << pipeline.parameters.sample >>]
