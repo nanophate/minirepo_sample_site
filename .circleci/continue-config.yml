@@ -56,8 +56,7 @@ workflows:
     when: << pipeline.parameters.sample >>
     jobs:
       - sample:
-          name:
-            - flow
+          name: naoya
   all-tests:
     when:
       and: [<< pipeline.parameters.public >>, << pipeline.parameters.sample >>]
