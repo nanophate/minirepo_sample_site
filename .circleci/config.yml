@@ -12,3 +12,9 @@ workflows:
           mapping: |
             app/public/.* public true
             app/sample/.* sample true
+      - path-filtering/filter:
+          base-revision: main
+          config-path: .circleci/continue-config.yml
+          mapping: |
+            app/public/.* public true
+            app/sample/.* sample true
